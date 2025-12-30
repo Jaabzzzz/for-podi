@@ -1,14 +1,14 @@
 let p = 1;
 const music = document.getElementById("music");
 
-/* ---------- PAGE CHANGE ---------- */
+/* ---------- PAGE NAVIGATION ---------- */
 function next() {
-  const cur = document.getElementById("p" + p);
-  if (cur) cur.classList.remove("active");
+  const currentPage = document.getElementById("p" + p);
+  if (currentPage) currentPage.classList.remove("active");
 
   p++;
-  const nxt = document.getElementById("p" + p);
-  if (nxt) nxt.classList.add("active");
+  const nextPage = document.getElementById("p" + p);
+  if (nextPage) nextPage.classList.add("active");
 
   if (music) music.play();
 }
@@ -17,15 +17,13 @@ function next() {
 const holdBtn = document.getElementById("holdBtn");
 let holdTimer = null;
 
-function startHold(e) {
-  e.preventDefault(); // 🔥 VERY IMPORTANT
+function startHold() {
   holdTimer = setTimeout(() => {
-    next();
+    next(); // go to page 4 after 2 sec
   }, 2000);
 }
 
-function stopHold(e) {
-  e.preventDefault();
+function cancelHold() {
   if (holdTimer) {
     clearTimeout(holdTimer);
     holdTimer = null;
@@ -35,52 +33,51 @@ function stopHold(e) {
 if (holdBtn) {
   // Desktop
   holdBtn.addEventListener("mousedown", startHold);
-  holdBtn.addEventListener("mouseup", stopHold);
-  holdBtn.addEventListener("mouseleave", stopHold);
+  holdBtn.addEventListener("mouseup", cancelHold);
+  holdBtn.addEventListener("mouseleave", cancelHold);
 
-  // Mobile (🔥 FIXED)
-  holdBtn.addEventListener("touchstart", startHold, { passive: false });
-  holdBtn.addEventListener("touchend", stopHold, { passive: false });
-  holdBtn.addEventListener("touchcancel", stopHold, { passive: false });
+  // Mobile (IMPORTANT)
+  holdBtn.addEventListener("touchstart", startHold);
+  holdBtn.addEventListener("touchend", cancelHold);
+  holdBtn.addEventListener("touchcancel", cancelHold);
 }
 
-/* ---------- IMAGE DRAG (PAGE 4) ---------- */
+/* ---------- DRAG IMAGES (PAGE 4) ---------- */
 const imgs = document.querySelectorAll(".imgs img");
 const dragBtn = document.getElementById("dragBtn");
-let moved = new Set();
+let movedImages = new Set();
 
-imgs.forEach(img => {
+imgs.forEach((img) => {
   let startX = 0;
 
-  function dragStart(e) {
-    e.preventDefault();
+  function startDrag(e) {
     startX = e.touches ? e.touches[0].clientX : e.clientX;
   }
 
-  function dragEnd(e) {
-    e.preventDefault();
+  function endDrag(e) {
     let endX = e.changedTouches
       ? e.changedTouches[0].clientX
       : e.clientX;
 
     if (Math.abs(endX - startX) > 30) {
-      moved.add(img);
+      movedImages.add(img);
     }
 
-    if (moved.size >= 2 && dragBtn) {
+    if (movedImages.size >= 2 && dragBtn) {
       dragBtn.disabled = false;
     }
   }
 
   // Desktop
-  img.addEventListener("mousedown", dragStart);
-  img.addEventListener("mouseup", dragEnd);
+  img.addEventListener("mousedown", startDrag);
+  img.addEventListener("mouseup", endDrag);
 
   // Mobile
-  img.addEventListener("touchstart", dragStart, { passive: false });
-  img.addEventListener("touchend", dragEnd, { passive: false });
+  img.addEventListener("touchstart", startDrag);
+  img.addEventListener("touchend", endDrag);
 });
 
+/* ---------- DRAG BUTTON ---------- */
 if (dragBtn) {
   dragBtn.addEventListener("click", next);
 }
