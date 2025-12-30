@@ -1,0 +1,34 @@
+body{
+margin:0;
+font-family:Poppins, sans-serif;
+background:radial-gradient(circle,#2b0036,#000);
+color:#fff;
+text-align:center;
+overflow:hidden;
+}
+.page{display:none;height:100vh;padding:40px;}
+.page.active{display:block;animation:fade 1s;}
+button{
+padding:12px 26px;
+border:none;
+border-radius:30px;
+background:#ff4d8d;
+color:white;
+font-size:18px;
+box-shadow:0 0 15px #ff4d8d;
+}
+.love{
+font-size:32px;
+margin:20px 0;
+animation:zoom 2s forwards;
+}
+.imgs img{
+width:90px;
+margin:10px;
+border-radius:12px;
+cursor:grab;
+}
+.note{opacity:.7}
+.final{line-height:1.6;animation:fade 3s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes zoom{from{transform:scale(.2)}to{transform:scale(1)}}
