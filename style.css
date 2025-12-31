@@ -1,83 +1,47 @@
-body{
-  margin:0;
-  font-family: Poppins, sans-serif;
-  background: radial-gradient(circle, #2b0036, #000);
-  color:#fff;
-  text-align:center;
-  overflow:hidden;
+/* Image container */
+.imgs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  margin:30px 0;
+  position:relative;
 }
 
-/* Pages */
-.page{
-  display:none;
-  height:100vh;
-  padding:40px;
-}
-.page.active{
-  display:block;
-  animation:fade 1s;
-}
-
-/* Buttons */
-button{
-  padding:12px 26px;
-  border:none;
-  border-radius:30px;
-  background:#ff4d8d;
-  color:white;
-  font-size:18px;
-  box-shadow:0 0 15px #ff4d8d;
-  cursor:pointer;
-
-  /* 🔥 CRITICAL FOR HOLD BUTTON */
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* Animated love text */
-.love{
-  font-size:32px;
-  margin:20px 0;
-  animation:zoom 2s forwards;
-}
-
-/* Images (drag interaction) */
+/* Images */
 .imgs img{
-  width:90px;
-  margin:10px;
-  border-radius:12px;
+  width:100px;
+  height:135px;
+  object-fit:cover;
+  border-radius:18px;
   cursor:grab;
 
-  /* 🔥 CRITICAL FOR DRAG */
+  /* Interaction safety */
   touch-action: none;
   user-select: none;
   -webkit-user-drag: none;
+
+  /* Visual */
+  box-shadow:0 12px 30px rgba(0,0,0,0.45);
+  transition:transform 0.3s ease;
+  position:relative;
 }
 
-/* Disabled button look */
-button:disabled{
-  opacity:0.4;
-  box-shadow:none;
+/* 🎨 Dis-aligned romantic look */
+.imgs img:nth-child(1){
+  transform: rotate(-12deg) translateY(12px);
 }
 
-/* Notes */
-.note{
-  opacity:.7;
+.imgs img:nth-child(2){
+  transform: rotate(6deg) translateY(-10px);
+  z-index:2;
 }
 
-/* Final paragraph */
-.final{
-  line-height:1.6;
-  animation:fade 3s;
+.imgs img:nth-child(3){
+  transform: rotate(-8deg) translateY(16px);
 }
 
-/* Animations */
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
-}
-@keyframes zoom{
-  from{transform:scale(.2)}
-  to{transform:scale(1)}
+/* Small lift on touch / drag */
+.imgs img:active{
+  transform: scale(1.05);
 }
